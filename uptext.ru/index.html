@@ -1,0 +1,207 @@
+<!DOCTYPE html><html lang="ru">
+    <head><meta charset="UTF-8">
+    <title>UPtext.ru - простая работа с текстом. </title>
+    <meta name="description" content="Перевод текста, набранного в неправильной раскладке клавиатуры. Перевод текста в верхний регист,нижний регистр.   " />
+    <meta name='wmail-verification' content='8c48b71b8c91017e63080f42f67abfe3' />
+    <meta name="yandex-verification" content="c0b1f06b2130af21" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-59946546-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-59946546-5');
+</script>
+<script src="js/lib/jquery-3.3.1.min.js"></script>
+
+<style>
+body{
+padding: 80px 100px;
+font-family: sans-serif;
+}
+
+.button {
+   display: inline-block;
+   margin: 20px;
+   padding: 10px 20px;
+   
+   border-radius: 40px;
+   border:3px solid #afafaf;
+   background:linear-gradient
+   (white,lightgrey);
+   color: #585a5e;
+   
+   font: inherit;
+}
+
+.button:focus{
+    outline: none;
+    box-shadow:
+    0 0 0 3px #fff,
+    0 0 0 6px #2f7cc0;
+}
+
+.button:active{
+    border-color: #4777a6;
+    background: #4e87c0;
+    color: #fff;
+}
+
+</style>
+    </head>
+    <body>
+        <h1>UPtext.ru</h1>
+        <h2>Перевод текста, набранного в неправильной раскладке клавиатуры. Перевод текста в верхний регист, нижний регистр.</h2><br><br>
+       <p> Скопировать содержимое в буфер обмена:<br>
+       <button class="button" onclick="myFunction()" tabindex="6" aria-label=" скопировать результат в буффер обмена" >скопировать </button><br><br>
+       Перевод текста в верхний или нижний регист:<br>
+       <input class="button"  value="В ВЕРХ " id="toUPP" type="button" tabindex="4" aria-label="перевести все буквы в верхний регистр">
+       <input class="button"  value="в низ" id="toDOWN" type="button" tabindex="5" aria-label="перевести все буквы в нижний регистр"><br><br>
+       Смена раскладки языка:<br>
+       <input class="button"  value=" -> Rus" id="fomEngToRus" type="button" tabindex="2" aria-label="перевести все буквы в русскую раскладку">
+       <input class="button"  value=" -> Eng" id="fomRusToEng" type="button" tabindex="3" aria-label="перевести все буквы в английскую раскладку"><br><br>
+       </p>
+       Вставьте свой текст сюда:<br>
+       <p><textarea rows="20" cols="60"  id="message" tabindex="1" aria-label="поле для вставки своего текста и забора результатов преобразования вставленного текста"></textarea></p>
+        
+<script>
+$('#toUPP').click(function()
+{ var thought = $('#message').val();
+var result = thought.toUpperCase();
+$("#message").val(result);
+});
+</script>
+
+<script>
+$('#toDOWN').click(function()
+{ var thought = $('#message').val();
+var result = thought.toLowerCase();
+$("#message").val(result);
+});
+</script>
+ 
+ 
+<script>
+$('#fomEngToRus').click(function()
+{ var thought = $('#message').val();
+var result = EngToRus(thought);
+$("#message").val(result);
+});
+</script>
+  <script>
+$('#fomRusToEng').click(function()
+{ var thought = $('#message').val();
+var result = RusToEng(thought);
+$("#message").val(result);
+});
+</script>
+        
+   
+<script>
+function myFunction() {
+  var copyText = document.getElementById("message");
+  copyText.select();
+  document.execCommand("Copy");
+}
+</script>   
+
+
+<script>
+function EngToRus(str) {
+        replacer = {
+            "q":"й", "w":"ц"  , "e":"у" , "r":"к" , "t":"е", "y":"н", "u":"г", 
+            "i":"ш", "o":"щ", "p":"з" , "[":"х" , "]":"ъ", "a":"ф", "s":"ы", 
+            "d":"в" , "f":"а"  , "g":"п" , "h":"р" , "j":"о", "k":"л", "l":"д", 
+            ";":"ж" , "'":"э"  , "z":"я", "x":"ч", "c":"с", "v":"м", "b":"и", 
+            "n":"т" , "m":"ь"  , ",":"б" , ".":"ю" , "/":"." , "&":"?"
+        };       
+        
+        for(i=0; i < str.length; i++){                        
+            if( replacer[ str[i].toLowerCase() ] != undefined){
+                                
+                if(str[i] == str[i].toLowerCase()){
+                    replace = replacer[ str[i].toLowerCase() ];    
+                } else if(str[i] == str[i].toUpperCase()){
+                    replace = replacer[ str[i].toLowerCase() ].toUpperCase();
+                } 
+                
+                str = str.replace(str[i], replace);
+            }
+        }
+        
+       return str;
+    }
+</script>  
+
+<script>
+function RusToEng(str) {
+        replacer = {
+            "й":"q", "ц":"w"  , "у":"e" , "к":"r" , "е":"t", "н":"y", "г":"u", 
+            "ш":"i", "щ":"o", "з":"p" , "х":"[" , "ъ":"[", "ф":"a", "ы":"s", 
+            "в":"d" , "а":"f"  , "п":"g" , "р":"h" , "о":"j", "л":"k", "д":"l", 
+            "ж":";" , "э":"'"  , "я":"z", "ч":"x", "с":"c", "м":"v", "и":"b", 
+            "т":"n" , "ь":"m"  , "б":"," , "ю":"." , ".":"/"
+        };       
+        
+        for(i=0; i < str.length; i++){                        
+            if( replacer[ str[i].toLowerCase() ] != undefined){
+                                
+                if(str[i] == str[i].toLowerCase()){
+                    replace = replacer[ str[i].toLowerCase() ];    
+                } else if(str[i] == str[i].toUpperCase()){
+                    replace = replacer[ str[i].toLowerCase() ].toUpperCase();
+                } 
+                
+                str = str.replace(str[i], replace);
+            }
+        }
+        
+       return str;
+    }
+</script>  
+
+
+<footer>
+<script> 
+
+$(document).ready(function() {
+/** начнёт работу тогда, когда будет готов DOM, за исключением картинок **/
+$("#message").focus();
+});
+
+</script> 
+
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter48570401 = new Ya.Metrika({
+                    id:48570401,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/48570401" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+</footer>
+</body>
+</html>
